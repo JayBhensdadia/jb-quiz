@@ -12,7 +12,7 @@ export const SubHeader = ({ title }: { title: string; }) => {
 
 const styles = StyleSheet.create({
     subHeader: {
-        fontWeight: 'bold',
+        fontFamily: "Space-Grotesk-Medium",
         textAlign: 'center',
         paddingBottom: 30
     },

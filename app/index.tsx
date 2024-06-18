@@ -1,12 +1,13 @@
 import { Link, router } from 'expo-router';
 import { useContext, useEffect, useState } from 'react';
-import { ActivityIndicator, Button, Text, View } from 'react-native';
+import { ActivityIndicator, Button, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { CustomInput } from '@/components/ui/CustomInput';
 import { CustomButton } from '@/components/ui/CustomButton';
 import { Header } from '@/components/ui/Header';
 import { db } from '@/db/client';
 import { eq } from 'drizzle-orm';
+import { SubHeader } from '@/components/ui/SubHeader';
 
 export default function SignIn() {
     const [token, setToken] = useState<string | null>(null);
@@ -93,20 +94,49 @@ export default function SignIn() {
 
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'cyan', display: 'flex', gap: 10 }}>
-            <Header title='Sign in' />
+        <SafeAreaView style={styles.safeArea}>
+            <View style={styles.container}>
+                <Header title='Sign in' />
+                <SubHeader title='Good to see you again!!' />
 
+                <View style={styles.form}>
+                    <CustomInput type='text' placeholder='email' value={username} setValue={setUsername} />
+                    <CustomInput type='password' placeholder='password' value={password} setValue={setPassword} />
 
-            <CustomInput type='text' placeholder='email' value={username} setValue={setUsername} />
-            <CustomInput type='password' placeholder='password' value={password} setValue={setPassword} />
-
-            <CustomButton
-                varient='default'
-                title='go to home'
-                onPress={() => {
-                    handleSignin();
-                }}
-            />
-        </View>
+                    <CustomButton
+                        varient='default'
+                        title='Signin'
+                        onPress={handleSignin}
+                    />
+                </View>
+            </View>
+        </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    safeArea: {
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#E1F396', // Apply background color to the SafeAreaView
+
+    },
+    container: {
+        flex: 1,
+        marginTop: 150,
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        backgroundColor: '#E1F396',
+        // Ensure background color is applied here too
+        gap: 10, // Use margin or padding for consistent spacing
+    },
+    form: {
+        width: '100%',
+        flex: 1,
+        display: 'flex',
+        gap: 20,
+        paddingHorizontal: 30,
+
+    }
+});

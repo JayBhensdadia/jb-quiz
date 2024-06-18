@@ -19,15 +19,15 @@ const styles = StyleSheet.create({
     button: {
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 10,
+        paddingVertical: 15,
         paddingHorizontal: 40,
-        borderRadius: 15,
+        borderRadius: 20,
         elevation: 3,
-        backgroundColor: 'black',
+        backgroundColor: '#015055',
 
     },
     text: {
-        fontWeight: 'bold',
+        fontFamily: "Space-Grotesk-Bold",
         letterSpacing: 0.25,
         color: 'white',
     },
@@ -42,9 +42,9 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     backBtnText: {
-        fontWeight: 'bold',
+        fontFamily: "Space-Grotesk",
         letterSpacing: 0.25,
-        color: 'black',
+        color: '#015055',
     },
 
 });

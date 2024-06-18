@@ -47,6 +47,7 @@ export const CustomInput = ({
 
 const styles = StyleSheet.create({
     input: {
+        fontFamily: 'Space-Grotesk-SemiBold',
         borderWidth: 1,
         borderRadius: 20,
         padding: 10
