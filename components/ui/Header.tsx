@@ -13,7 +13,7 @@ export const Header = ({ title }: { title: string; }) => {
 const styles = StyleSheet.create({
     header: {
         fontSize: 36,
-        fontWeight: 'bold',
+        fontFamily: 'Space-Grotesk',
         textAlign: 'center',
         paddingHorizontal: 20,
         paddingTop: 20
