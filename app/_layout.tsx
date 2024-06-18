@@ -1,37 +1,36 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import React from 'react';
+import { Text, View } from 'react-native';
+import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
+import migrations from '../drizzle/migrations';
+import { db } from '@/db/client';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+const RootLayout = () => {
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+    const { success, error } = useMigrations(db, migrations);
+    if (error) {
+        return (
+            <View>
+                <Text>Migration error: {error.message}</Text>
+            </View>
+        );
     }
-  }, [loaded]);
+    if (!success) {
+        return (
+            <View>
+                <Text>Migration is in progress...</Text>
+            </View>
+        );
+    }
 
-  if (!loaded) {
-    return null;
-  }
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
-  );
-}
+
+    return (
+        <Stack initialRouteName='/' screenOptions={{ headerShown: false }}>
+            <Stack.Screen name='index' />
+        </Stack>
+    );
+};
+
+export default RootLayout;
