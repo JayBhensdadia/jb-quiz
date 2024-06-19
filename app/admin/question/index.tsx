@@ -1,43 +1,55 @@
-import { Header } from '@/components/ui/Header';
 import { db } from '@/db/client';
-import { SelectUser, users } from '@/db/schema';
+import { SelectQuestion, questions } from '@/db/schema';
 import { useLiveQuery } from 'drizzle-orm/expo-sqlite';
 import React, { useCallback, useState } from 'react';
-import { FlatList, Image, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { CustomButton } from '@/components/ui/CustomButton';
 import { CustomInput } from '@/components/ui/CustomInput';
 
-const UserList = () => {
+// Function to format options
+const formatOptions = (optionsString: string) => {
+    const optionsArray = optionsString.split(',').map(option => option.trim());
+    const optionsObject: any = {};
+    optionsArray.forEach((option, index) => {
+        const key = String.fromCharCode(65 + index); // Convert index to letter A, B, C, etc.
+        optionsObject[key] = option;
+    });
+    return JSON.stringify(optionsObject);
+};
 
-
-    const { data } = useLiveQuery(db.select().from(users));
+const QuestionsList = () => {
+    const { data } = useLiveQuery(db.select().from(questions));
     const [showAddModal, setShowAddModal] = useState(false);
-    const [name, setName] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [questionText, setQuestionText] = useState('');
+    const [options, setOptions] = useState('');
+    const [correctOption, setCorrectOption] = useState('');
 
     const handleCreate = useCallback(async () => {
-        console.log('Creating user with:', { name, username, password });
+        console.log('Creating question with:', { questionText, options, correctOption });
         try {
-            await db.insert(users).values({ name, username, password });
-            console.log('User created!');
+            const formattedOptions = formatOptions(options);
+            await db.insert(questions).values({ questionText, options: formattedOptions, correctOption });
+            console.log('Question created!');
             setShowAddModal(false);
+            setQuestionText('');
+            setOptions('');
+            setCorrectOption('');
         } catch (error) {
             console.log(error);
-            alert('Error in creating new user');
+            alert('Error in creating new question');
         }
-    }, [name, username, password]);
+    }, [questionText, options, correctOption]);
 
-    const renderItem = ({ item }: { item: SelectUser; }) => (
-        <Pressable style={{ flex: 1 }} onPress={() => router.push(`/admin/user/details/${item.id}`)}>
+    const renderItem = ({ item }: { item: SelectQuestion; }) => (
+        <Pressable style={{ flex: 1 }} onPress={() => router.push(`/admin/question/details/${item.id}`)}>
             <View style={styles.itemContainer}>
-                <Image source={{ uri: item.profilePhoto!, height: 100, width: 100 }} />
                 <View style={styles.itemTextContainer}>
-                    <Text style={styles.itemName}>{item.name}</Text>
+                    <Text style={styles.itemName}>{item.questionText}</Text>
                     <Text style={styles.itemDetail}>ID No: {item.id}</Text>
-                    <Text style={styles.itemDetail}>{item.username}</Text>
+                    {/* <Text style={styles.itemDetail}>Options: {item.options}</Text>
+                    <Text style={styles.itemDetail}>Correct Option: {item.correctOption}</Text> */}
                 </View>
                 <AntDesign name="right" size={15} color="gray" />
             </View>
@@ -47,8 +59,8 @@ const UserList = () => {
     return (
         <View style={{ flex: 1, marginTop: 50 }}>
             <View style={styles.header}>
-                <Text style={styles.headerText}>Users</Text>
-                <CustomButton varient='outline' title='Add User' onPress={() => setShowAddModal(true)} />
+                <Text style={styles.headerText}>Questions</Text>
+                <CustomButton varient='outline' title='Add Question' onPress={() => setShowAddModal(true)} />
             </View>
             <FlatList
                 data={data}
@@ -64,16 +76,16 @@ const UserList = () => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <View style={{ display: 'flex', gap: 10 }}>
-                            <CustomInput placeholder='Name' value={name} setValue={setName} type='text' />
-                            <CustomInput placeholder='Username' value={username} setValue={setUsername} type='text' />
-                            <CustomInput placeholder='Password' value={password} setValue={setPassword} type='password' />
+                            <CustomInput placeholder='Question Text' value={questionText} setValue={setQuestionText} type='text' />
+                            <CustomInput placeholder='Options (comma separated)' value={options} setValue={setOptions} type='text' />
+                            <CustomInput placeholder='Correct Option' value={correctOption} setValue={setCorrectOption} type='text' />
                         </View>
                         <View style={styles.modalActions}>
                             <CustomButton varient='outline' title='Cancel' onPress={() => {
                                 setShowAddModal(false);
-                                setName('');
-                                setUsername('');
-                                setPassword('');
+                                setQuestionText('');
+                                setOptions('');
+                                setCorrectOption('');
                             }} />
                             <CustomButton varient='outline' title='Create' onPress={handleCreate} />
                         </View>
@@ -90,6 +102,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 10,
         paddingHorizontal: 20,
+        paddingVertical: 20,
         alignItems: 'center',
         margin: 5,
         backgroundColor: '#015055',
@@ -102,7 +115,7 @@ const styles = StyleSheet.create({
     itemName: {
         fontFamily: 'Space-Grotesk-SemiBold',
         color: 'white',
-        fontSize: 24
+        fontSize: 20
     },
     itemDetail: {
         fontFamily: 'Space-Grotesk',
@@ -143,4 +156,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default UserList;
+export default QuestionsList;

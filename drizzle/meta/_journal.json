@@ -15,6 +15,13 @@
       "when": 1718707496345,
       "tag": "0001_lucky_baron_zemo",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1718771996712,
+      "tag": "0002_hard_korvac",
+      "breakpoints": true
     }
   ]
 }

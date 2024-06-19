@@ -21,6 +21,9 @@ export default function SignIn() {
         console.log('loading...');
 
         const getToken = async () => {
+
+
+
             const storedToken = await SecureStore.getItemAsync('token');
             setToken(storedToken);
             setIsLoading(false);
@@ -30,8 +33,10 @@ export default function SignIn() {
     }, []);
 
     useEffect(() => {
-        if (token) {
-            router.push('/admin');
+        if (token === 'admin-token') {
+            router.replace('/admin');
+        } else if (token === 'user-token') {
+            router.replace('/user');
         }
     }, [token]);
 
@@ -61,7 +66,7 @@ export default function SignIn() {
 
 
         if (username === adminEmail && password === adminPassword) {
-            await SecureStore.setItemAsync('token', 'my-token');
+            await SecureStore.setItemAsync('token', 'admin-token');
             router.push("/admin");
             return;
         }
@@ -75,9 +80,10 @@ export default function SignIn() {
             });
 
             if (user) {
-                await SecureStore.setItemAsync('token', 'my-token');
+                await SecureStore.setItemAsync('token', 'user-token');
+                await SecureStore.setItemAsync('userId', String(user.id));
                 // setSession('user-session');
-                router.push("/admin");
+                router.push("/user");
                 return;
 
             } else {

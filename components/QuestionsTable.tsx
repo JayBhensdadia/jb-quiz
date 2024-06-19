@@ -4,6 +4,7 @@ import { useLiveQuery } from 'drizzle-orm/expo-sqlite';
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { CustomButton } from './ui/CustomButton';
+import { router } from 'expo-router';
 
 const QuestionsTable = ({ varient }: { varient: 'full' | 'mini'; }) => {
 
@@ -15,7 +16,9 @@ const QuestionsTable = ({ varient }: { varient: 'full' | 'mini'; }) => {
         <View style={{ marginHorizontal: 20 }}>
             <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Text style={{ fontFamily: 'Space-Grotesk', fontSize: 20, paddingBottom: 10 }}>List of Questions</Text>
-                <Pressable>
+                <Pressable onPress={() => {
+                    router.push("/admin/question");
+                }}>
                     <Text style={{ fontFamily: 'Space-Grotesk-Bold', backgroundColor: '#E1F396', paddingHorizontal: 10, borderRadius: 20, paddingVertical: 5 }}>show all</Text>
                 </Pressable>
             </View>
