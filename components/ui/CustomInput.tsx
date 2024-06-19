@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
 export const CustomInput = ({
@@ -12,37 +12,17 @@ export const CustomInput = ({
     setValue: (text: string) => void;
     type: 'text' | 'password' | 'number';
 }) => {
-
-    let element: ReactElement;
-    switch (type) {
-        case 'password':
-            return (<View>
-
-                <TextInput
-                    placeholder={placeholder}
-                    value={value}
-                    onChangeText={setValue}
-                    style={styles.input}
-                    secureTextEntry
-                />
-            </View>);
-            break;
-        default:
-            return (<View>
-
-                <TextInput
-                    placeholder={placeholder}
-                    value={value}
-                    onChangeText={setValue}
-                    style={styles.input}
-
-                />
-            </View>);
-            break;
-    }
-
-
-
+    return (
+        <View>
+            <TextInput
+                placeholder={placeholder}
+                value={value}
+                onChangeText={setValue}
+                style={styles.input}
+                secureTextEntry={type === 'password'}
+            />
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({
