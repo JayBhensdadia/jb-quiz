@@ -22,6 +22,13 @@
       "when": 1718771996712,
       "tag": "0002_hard_korvac",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1718855882420,
+      "tag": "0003_abnormal_stick",
+      "breakpoints": true
     }
   ]
 }

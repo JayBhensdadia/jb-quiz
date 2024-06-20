@@ -20,9 +20,11 @@ export default function SignIn() {
     useEffect(() => {
         console.log('loading...');
 
+
+
         const getToken = async () => {
 
-
+            // await SecureStore.deleteItemAsync("token");
 
             const storedToken = await SecureStore.getItemAsync('token');
             setToken(storedToken);

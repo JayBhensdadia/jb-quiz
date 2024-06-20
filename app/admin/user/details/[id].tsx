@@ -161,6 +161,9 @@ const UserDetailsScreen = () => {
 
             <CustomButton title='Show Report' onPress={() => {
 
+
+                router.push(`/admin/user/report/${currentId}`);
+
             }} varient='outline' />
 
             {/* <Modal
