@@ -55,7 +55,7 @@ const UserReport = () => {
                 </View>
 
 
-                <View style={{ display: 'flex' }}>
+                <View style={{ display: 'flex', justifyContent: "center", alignItems: 'center' }}>
                     <Text style={{ fontFamily: "Space-Grotesk-Bold", fontSize: 72, color: 'red' }}>{wrongCount()}</Text>
                     <Text style={{ fontFamily: "Space-Grotesk-Medium", fontSize: 24, textAlign: 'center', color: 'red' }}>Wrong</Text>
                 </View>
