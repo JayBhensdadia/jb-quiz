@@ -45,7 +45,7 @@ const UserList = () => {
     );
 
     return (
-        <View style={{ flex: 1, marginTop: 50 }}>
+        <View style={{ flex: 1, marginTop: 50, marginHorizontal: 10 }}>
             <View style={styles.header}>
                 <Text style={styles.headerText}>Users</Text>
                 <CustomButton varient='outline' title='Add User' onPress={() => setShowAddModal(true)} />

@@ -1,7 +1,7 @@
-import React from 'react';
-import { Button, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { Button, Pressable, Text, View } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
-import { router } from 'expo-router';
+import { router, useNavigation } from 'expo-router';
 import { CustomButton } from '@/components/ui/CustomButton';
 import { db } from '@/db/client';
 import { questions, users } from '@/db/schema';
@@ -11,24 +11,41 @@ import UserTable from '@/components/UserTable';
 import UsersHero from '@/components/UsersHero';
 import QuestionsHero from '@/components/QuestionsHero';
 import QuestionsTable from '@/components/QuestionsTable';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const AdminScreen = () => {
 
-    const { data } = useLiveQuery(db.select().from(users));
+    console.log('admin screen loading.....');
+
 
 
 
     return (
-        <View style={{ flex: 1, marginTop: 20, display: 'flex', gap: 20 }}>
+        <View style={{ width: '100%', height: '100%', marginTop: 30, display: 'flex', gap: 20 }}>
 
 
             {/* header section */}
-            <View style={{ width: '100%', paddingHorizontal: 10, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', }}>
+            <View style={{ width: '100%', paddingHorizontal: 15, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', }}>
                 <Header title='Hello, Admin' />
-                <CustomButton varient='default' title='logout' onPress={async () => {
+                <Pressable style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingVertical: 10,
+                    paddingHorizontal: 15,
+                    borderRadius: 20,
+                    elevation: 3,
+                    backgroundColor: '#015055',
+
+                }} onPress={async () => {
                     await SecureStore.deleteItemAsync('token');
                     router.replace('/');
-                }} />
+                }}>
+                    <MaterialCommunityIcons name="logout-variant" size={24} color="white" />
+                </Pressable>
+                {/* <CustomButton varient='default' title='logout' onPress={async () => {
+                    await SecureStore.deleteItemAsync('token');
+                    router.replace('/');
+                }} /> */}
 
             </View>
 
@@ -39,14 +56,7 @@ const AdminScreen = () => {
 
                 <UsersHero />
                 <QuestionsHero />
-                {/* <View style={{ display: 'flex' }}>
-                    <Text style={{ fontFamily: "Space-Grotesk", fontSize: 72 }}>{data.length}</Text>
-                    <Text style={{ fontFamily: "Space-Grotesk", fontSize: 24, textAlign: 'center' }}>Users</Text>
-                </View> */}
-                {/* <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ fontFamily: "Space-Grotesk", fontSize: 72 }}>11</Text>
-                    <Text style={{ fontFamily: "Space-Grotesk", fontSize: 24, textAlign: 'center' }}>Questions</Text>
-                </View> */}
+
 
             </View>
 
@@ -54,46 +64,9 @@ const AdminScreen = () => {
 
 
 
-            {/* list of few users with show all button */}
 
             <UserTable varient='mini' />
             <QuestionsTable varient='mini' />
-
-            {/* list of few questions with show all button */}
-
-            {/* <View>
-                <Header title='List of questions' />
-            </View> */}
-
-            {/* <Text>
-                {JSON.stringify(data)}
-
-            </Text> */}
-
-            {/* <CustomButton title='create user' varient='default' onPress={async () => {
-                try {
-                    await db.insert(users).values({ username: 'user6@gmail.com', password: 'user6' });
-                    console.log('user created..!!!');
-
-                } catch (error) {
-                    console.log(error);
-
-                    alert('error in creating user');
-                }
-            }} />
-
-            <CustomButton title='create question' varient='default' onPress={async () => {
-                try {
-                    await db.insert(questions).values({ questionText: 'where is everest?', options: '{"A":"nepal","B":"pakistan"}', correctOption: "A" });
-                    console.log('question created..!!!');
-
-                } catch (error) {
-                    console.log(error);
-
-                    alert('error in creating questions');
-                }
-            }} />
- */}
 
 
 

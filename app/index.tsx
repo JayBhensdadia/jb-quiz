@@ -17,8 +17,9 @@ export default function SignIn() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    console.log('loading signin screen...');
+
     useEffect(() => {
-        console.log('loading...');
 
 
 

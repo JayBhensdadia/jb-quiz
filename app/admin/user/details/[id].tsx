@@ -6,7 +6,7 @@ import { eq } from 'drizzle-orm';
 import { useLiveQuery } from 'drizzle-orm/expo-sqlite';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const UserDetailsScreen = () => {
     const [showUpdateModal, setShowUpdateModal] = useState(false);
@@ -100,7 +100,7 @@ const UserDetailsScreen = () => {
 
 
     return (
-        <View style={{ flex: 1, marginTop: 50, padding: 10 }}>
+        <ScrollView style={{ flex: 1, marginTop: 50, padding: 10, marginHorizontal: 10 }}>
 
             <View >
                 <Text style={{ fontFamily: 'Space-Grotesk', fontSize: 24 }}>User Details</Text>
@@ -223,8 +223,6 @@ const UserDetailsScreen = () => {
 
 
 
-
-
                     </View>
                 </View>
 
@@ -233,7 +231,7 @@ const UserDetailsScreen = () => {
 
 
 
-        </View>
+        </ScrollView>
     );
 };
 

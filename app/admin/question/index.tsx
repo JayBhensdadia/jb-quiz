@@ -15,6 +15,8 @@ const QuestionsList = () => {
     const [showAddModal, setShowAddModal] = useState(false);
     const [questionText, setQuestionText] = useState('');
 
+    console.log('admin/questions page loading.....');
+
 
     const handleCreate = useCallback(async () => {
         console.log('Creating question with:', { questionText });
@@ -46,7 +48,7 @@ const QuestionsList = () => {
     );
 
     return (
-        <View style={{ flex: 1, marginTop: 50 }}>
+        <View style={{ flex: 1, marginTop: 50, marginHorizontal: 10 }}>
             <View style={styles.header}>
                 <Text style={styles.headerText}>Questions</Text>
                 <CustomButton varient='outline' title='Add Question' onPress={() => setShowAddModal(true)} />

@@ -13,7 +13,7 @@ const QuestionsTable = ({ varient }: { varient: 'full' | 'mini'; }) => {
     const { data } = varient === 'mini' ? useLiveQuery(db.select().from(questions).limit(5)) : useLiveQuery(db.select().from(questions));
 
     return (
-        <View style={{ marginHorizontal: 20 }}>
+        <View style={{ marginHorizontal: 30 }}>
             <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Text style={{ fontFamily: 'Space-Grotesk', fontSize: 20, paddingBottom: 10 }}>List of Questions</Text>
                 <Pressable onPress={() => {
