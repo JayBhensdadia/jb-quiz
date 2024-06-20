@@ -1,6 +1,6 @@
 import { Link, router } from 'expo-router';
 import { useContext, useEffect, useState } from 'react';
-import { ActivityIndicator, Button, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Button, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { CustomInput } from '@/components/ui/CustomInput';
 import { CustomButton } from '@/components/ui/CustomButton';
@@ -20,9 +20,11 @@ export default function SignIn() {
     useEffect(() => {
         console.log('loading...');
 
+
+
         const getToken = async () => {
 
-
+            // await SecureStore.deleteItemAsync("token");
 
             const storedToken = await SecureStore.getItemAsync('token');
             setToken(storedToken);
@@ -100,8 +102,13 @@ export default function SignIn() {
 
 
     return (
-        <SafeAreaView style={styles.safeArea}>
+
+        <View style={styles.safeArea}>
             <View style={styles.container}>
+
+                <View >
+                    <Image source={require('@/assets/images/icon.png')} style={{ width: 100, height: 100 }} />
+                </View>
                 <Header title='Sign in' />
                 <SubHeader title='Good to see you again!!' />
 
@@ -116,7 +123,7 @@ export default function SignIn() {
                     />
                 </View>
             </View>
-        </SafeAreaView>
+        </View>
     );
 }
 

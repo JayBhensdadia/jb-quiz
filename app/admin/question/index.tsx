@@ -8,39 +8,28 @@ import { router } from 'expo-router';
 import { CustomButton } from '@/components/ui/CustomButton';
 import { CustomInput } from '@/components/ui/CustomInput';
 
-// Function to format options
-const formatOptions = (optionsString: string) => {
-    const optionsArray = optionsString.split(',').map(option => option.trim());
-    const optionsObject: any = {};
-    optionsArray.forEach((option, index) => {
-        const key = String.fromCharCode(65 + index); // Convert index to letter A, B, C, etc.
-        optionsObject[key] = option;
-    });
-    return JSON.stringify(optionsObject);
-};
+
 
 const QuestionsList = () => {
     const { data } = useLiveQuery(db.select().from(questions));
     const [showAddModal, setShowAddModal] = useState(false);
     const [questionText, setQuestionText] = useState('');
-    const [options, setOptions] = useState('');
-    const [correctOption, setCorrectOption] = useState('');
+
 
     const handleCreate = useCallback(async () => {
-        console.log('Creating question with:', { questionText, options, correctOption });
+        console.log('Creating question with:', { questionText });
         try {
-            const formattedOptions = formatOptions(options);
-            await db.insert(questions).values({ questionText, options: formattedOptions, correctOption });
+
+            await db.insert(questions).values({ questionText });
             console.log('Question created!');
             setShowAddModal(false);
             setQuestionText('');
-            setOptions('');
-            setCorrectOption('');
+
         } catch (error) {
             console.log(error);
             alert('Error in creating new question');
         }
-    }, [questionText, options, correctOption]);
+    }, [questionText]);
 
     const renderItem = ({ item }: { item: SelectQuestion; }) => (
         <Pressable style={{ flex: 1 }} onPress={() => router.push(`/admin/question/details/${item.id}`)}>
@@ -77,15 +66,13 @@ const QuestionsList = () => {
                     <View style={styles.modalContent}>
                         <View style={{ display: 'flex', gap: 10 }}>
                             <CustomInput placeholder='Question Text' value={questionText} setValue={setQuestionText} type='text' />
-                            <CustomInput placeholder='Options (comma separated)' value={options} setValue={setOptions} type='text' />
-                            <CustomInput placeholder='Correct Option' value={correctOption} setValue={setCorrectOption} type='text' />
+
                         </View>
                         <View style={styles.modalActions}>
                             <CustomButton varient='outline' title='Cancel' onPress={() => {
                                 setShowAddModal(false);
                                 setQuestionText('');
-                                setOptions('');
-                                setCorrectOption('');
+
                             }} />
                             <CustomButton varient='outline' title='Create' onPress={handleCreate} />
                         </View>
