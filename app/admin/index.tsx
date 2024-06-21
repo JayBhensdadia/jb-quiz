@@ -1,11 +1,6 @@
-import React, { useEffect } from 'react';
 import { Button, Pressable, Text, View } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
-import { router, useNavigation } from 'expo-router';
-import { CustomButton } from '@/components/ui/CustomButton';
-import { db } from '@/db/client';
-import { questions, users } from '@/db/schema';
-import { useLiveQuery } from 'drizzle-orm/expo-sqlite';
+import { router } from 'expo-router';
 import { Header } from '@/components/ui/Header';
 import UserTable from '@/components/UserTable';
 import UsersHero from '@/components/UsersHero';

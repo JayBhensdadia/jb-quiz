@@ -12,10 +12,20 @@ const QuestionsTable = ({ varient }: { varient: 'full' | 'mini'; }) => {
 
     const { data } = varient === 'mini' ? useLiveQuery(db.select().from(questions).limit(5)) : useLiveQuery(db.select().from(questions));
 
+
+    if (!data) {
+        return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text>Data not found!!</Text>
+        </View>;
+    }
+
     return (
         <View style={{ marginHorizontal: 30 }}>
             <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Text style={{ fontFamily: 'Space-Grotesk', fontSize: 20, paddingBottom: 10 }}>List of Questions</Text>
+
+
+
                 <Pressable onPress={() => {
                     router.push("/admin/question");
                 }}>

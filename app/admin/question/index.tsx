@@ -13,7 +13,7 @@ import { CustomInput } from '@/components/ui/CustomInput';
 const QuestionsList = () => {
     const { data } = useLiveQuery(db.select().from(questions));
     const [showAddModal, setShowAddModal] = useState(false);
-    const [questionText, setQuestionText] = useState('');
+    const [questionText, setQuestionText] = useState<string>('');
 
     console.log('admin/questions page loading.....');
 
@@ -33,19 +33,36 @@ const QuestionsList = () => {
         }
     }, [questionText]);
 
-    const renderItem = ({ item }: { item: SelectQuestion; }) => (
-        <Pressable style={{ flex: 1 }} onPress={() => router.push(`/admin/question/details/${item.id}`)}>
-            <View style={styles.itemContainer}>
-                <View style={styles.itemTextContainer}>
-                    <Text style={styles.itemName}>{item.questionText}</Text>
-                    <Text style={styles.itemDetail}>ID No: {item.id}</Text>
-                    {/* <Text style={styles.itemDetail}>Options: {item.options}</Text>
+    const renderItem = ({ item }: { item: SelectQuestion; }) => {
+
+
+        if (!item) { return null; };
+        console.log(item);
+
+
+        return (
+
+            <Pressable style={{ flex: 1 }} onPress={() => router.push(`/admin/question/details/${item.id}`)}>
+                <View style={styles.itemContainer}>
+                    <View style={styles.itemTextContainer}>
+                        <Text style={styles.itemName}>{item.questionText}</Text>
+                        <Text style={styles.itemDetail}>ID No: {item.id}</Text>
+                        {/* <Text style={styles.itemDetail}>Options: {item.options}</Text>
                     <Text style={styles.itemDetail}>Correct Option: {item.correctOption}</Text> */}
+                    </View>
+                    <AntDesign name="right" size={15} color="gray" />
                 </View>
-                <AntDesign name="right" size={15} color="gray" />
-            </View>
-        </Pressable>
-    );
+            </Pressable>
+
+        );
+    };
+
+
+    if (!data) {
+        return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text>Data not found!</Text>
+        </View>;
+    }
 
     return (
         <View style={{ flex: 1, marginTop: 50, marginHorizontal: 10 }}>
